@@ -167,46 +167,46 @@ export const create = async  (req : Request ,res : Response) => {
 };
 
 // [PATCH] /tasks/edit/:id
-// module.exports.edit = async (req, res) => {
-//     try {
-//         const id = req.params.id;
+export const edit = async (req : Request ,res : Response) => {
+    try {
+        const id : string = req.params.id;
 
-//         await Task.updateOne({
-//             _id: id
-//         }, req.body)
-//         res.json({
-//             code: 200,
-//             message: "Cập nhật  thành công"
-//         })
-//     } catch (error) {
-//         res.json({
-//             code: 400,
-//             message: "không tồn tại!"
-//         })
-//     }
+        await Task.updateOne({
+            _id: id
+        }, req.body)
+        res.json({
+            code: 200,
+            message: "Cập nhật  thành công"
+        })
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "không tồn tại!"
+        })
+    }
 
-// };
+};
 
 // [DELETE] /tasks/delete/:id
-// module.exports.delete = async (req, res) => {
-//     try {
-//         const id = req.params.id;
+export const deleteTask = async (req : Request ,res : Response) => {
+    try {
+        const id : string = req.params.id;
 
-//         await Task.updateOne({
-//             _id: id
-//         }, {
-//             deleted: true,
-//             deletedAt: new Date(),
-//         })
-//         res.json({
-//             code: 200,
-//             message: "Xóa  thành công"
-//         })
-//     } catch (error) {
-//         res.json({
-//             code: 400,
-//             message: "không tồn tại!"
-//         })
-//     }
+        await Task.updateOne({
+            _id: id
+        }, {
+            deleted: true,
+            deletedAt: new Date(),
+        })
+        res.json({
+            code: 200,
+            message: "Xóa  thành công"
+        })
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "không tồn tại!"
+        })
+    }
 
-// };
+};
