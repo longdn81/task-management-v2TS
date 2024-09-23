@@ -5,9 +5,13 @@ import {Request , Response} from "express";
 
 // [GET] /tasks
 export const index =  async (req : Request ,res : Response) => {
-    const tasks = await Task.find({
-        deleted : false ,
-    })
+    const find = {
+        deleted: false,
+    };
+    if (req.query.status) {
+        find[`status`] = req.query.status;
+    }
+    const tasks = await Task.find(find)
     
 
     res.json(tasks);
