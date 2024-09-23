@@ -145,10 +145,68 @@ export const changeMulti = async (req : Request ,res : Response) => {
 };
 
 // [POST] /tasks/create
+export const create = async  (req : Request ,res : Response) => {
+    try {
+        // req.body.createdBy = req.user.id ;
+        
+        const task = new Task(req.body);
+        const data = await task.save();
 
+
+        res.json({
+            code: 200,
+            message: "Tạo thành công",
+            data: data,
+        })
+    } catch (error) {
+        res.json({
+            code: 400,
+            message: "không tồn tại!"
+        })
+    }
+};
 
 // [PATCH] /tasks/edit/:id
+// module.exports.edit = async (req, res) => {
+//     try {
+//         const id = req.params.id;
 
+//         await Task.updateOne({
+//             _id: id
+//         }, req.body)
+//         res.json({
+//             code: 200,
+//             message: "Cập nhật  thành công"
+//         })
+//     } catch (error) {
+//         res.json({
+//             code: 400,
+//             message: "không tồn tại!"
+//         })
+//     }
+
+// };
 
 // [DELETE] /tasks/delete/:id
+// module.exports.delete = async (req, res) => {
+//     try {
+//         const id = req.params.id;
 
+//         await Task.updateOne({
+//             _id: id
+//         }, {
+//             deleted: true,
+//             deletedAt: new Date(),
+//         })
+//         res.json({
+//             code: 200,
+//             message: "Xóa  thành công"
+//         })
+//     } catch (error) {
+//         res.json({
+//             code: 400,
+//             message: "không tồn tại!"
+//         })
+//     }
+
+// };
