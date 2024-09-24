@@ -1,5 +1,5 @@
-const mongoose = require("mongoose")
-const generate = require("../helpers/generate")
+import mongoose from "mongoose";
+import * as generate from "../helpers/generate"
 
 const userSchema = new mongoose.Schema({
     fullName: String,
@@ -23,4 +23,4 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema, "users");
 
-module.exports = User;
+export default  User;

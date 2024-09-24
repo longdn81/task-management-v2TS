@@ -1,4 +1,4 @@
-module.exports.generateRandomString = (length) => {
+export const generateRandomString = (length : number) => {
     const characters =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@123456789";
     let result = "";
@@ -9,7 +9,7 @@ module.exports.generateRandomString = (length) => {
     return result;
 };
 
-module.exports.generateRandomNumber = (length) => {
+export const generateRandomNumber = (length : number) => {
     const characters = "0123456789";
     let result = "";
 
@@ -18,3 +18,4 @@ module.exports.generateRandomNumber = (length) => {
     };
     return result;
 };
+
