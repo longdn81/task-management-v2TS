@@ -1,8 +1,10 @@
 import {Request , Response} from "express";
-
 import md5 from "md5";
-import { generateRandomString } from "../helpers/generate";
+import { generateRandomNumber, generateRandomString } from "../helpers/generate";
 import User from "../models/user.model";
+
+import ForgotPassword from "../models/forgot-password.model";
+import sendMailHelper from "../helpers/sendmail";
 
 
 // [POST]/api/v1/users/register
@@ -27,7 +29,7 @@ export const register = async (req : Request ,res : Response) => {
             token : generateRandomString(20),
         });
 
-        user.save();
+        await user.save();
 
         const token = user.token;
         res.cookie("token", token);
@@ -40,43 +42,55 @@ export const register = async (req : Request ,res : Response) => {
     };
 };
 
-// // [POST]/api/v1/users/login
-// module.exports.login = async (req, res) => {
-//     const password = req.body.password;
+// [POST]/api/v1/users/login
+export const login = async (req : Request ,res : Response) => {
+    const password : string = req.body.password;
 
-//     const user = await User.findOne({
-//         email: req.body.email,
-//         deleted: false
-//     });
+    const user = await User.findOne({
+        email: req.body.email,
+        deleted: false
+    });
 
-//     if (!user) {
-//         res.json({
-//             code: 400,
-//             message: "Email không tồn tại!"
-//         });
-//         return;
-//     }
-//     if (md5(password) !== user.password) {
-//         res.json({
-//             code: 400,
-//             message: "Sai mật khẩu !"
-//         });
-//         return;
-//     }
-//     const token = user.token;
-//     res.cookie("token", token);
+    if (!user) {
+        res.json({
+            code: 400,
+            message: "Email không tồn tại!"
+        });
+        return;
+    }
+    if (md5(password) !== user.password) {
+        res.json({
+            code: 400,
+            message: "Sai mật khẩu !"
+        });
+        return;
+    }
+    const token = user.token;
+    res.cookie("token", token);
 
-//     res.json({
-//         code: 200,
-//         message: "Đăng nhập thành công!",
-//         token: token
-//     });
+    res.json({
+        code: 200,
+        message: "Đăng nhập thành công!",
+        token: token
+    });
 
-// };
+};
+
+// [GET]/api/v1/users/detail/
+export const detail = async (req : Request ,res : Response) => {
+    
+    res.json({
+            code: 200,
+            message : "Thành công" ,
+            info :  req[`user`]
+        });
+    
+};
+
 
 // // [POST]/api/v1/users/password/forgot
-// module.exports.forgotPassword = async (req, res) => {
-//     const email = req.body.email;
+// export const forgotPassword = async (req : Request ,res : Response) => {
+//     const email : string = req.body.email;
 
 //     const user = await User.findOne({
 //         email: req.body.email,
@@ -90,7 +104,7 @@ export const register = async (req : Request ,res : Response) => {
 //         });
 //         return;
 //     }
-//     const otp = generateHelper.generateRandomNumber(8);
+//     const otp = generateRandomNumber(8);
 
 //     const timeExpire = 5;
 
@@ -104,12 +118,12 @@ export const register = async (req : Request ,res : Response) => {
 //     await forgotPassword.save();
 
 //     //  Send otp
-//     const subject = "Mã OTP xác minh mật khẩu"
-//     const html = `
+//     const subject : string = "Mã OTP xác minh mật khẩu"
+//     const html: string = `
 //       Mã OTP để xác nhận mật khẩu của bạn là <b>${otp}</b> . 
 //       Thời gian hết hạn là ${timeExpire} phút .
 //     `
-//     sendMailHelper.sendMail(email , subject , html)
+//     sendMailHelper(email , subject , html)
 //     res.json({
 //         code: 200,
 //         message : "đã gửi otp thành công"
@@ -118,7 +132,7 @@ export const register = async (req : Request ,res : Response) => {
 // };
 
 // // [POST]/api/v1/users/password/otp
-// module.exports.otpPassword = async (req, res) => {
+// export const otpPassword = async (req : Request ,res : Response) => {
 //     const email = req.body.email;
 //     const otp = req.body.otp;
 
@@ -151,7 +165,7 @@ export const register = async (req : Request ,res : Response) => {
 // };
 
 // // [POST]/api/v1/users/password/reset
-// module.exports.resetPassword = async (req, res) => {
+// export const resetPassword = async (req : Request ,res : Response) => {
 //     const token = req.body.token;
 //     const password = req.body.password;
     
@@ -180,18 +194,9 @@ export const register = async (req : Request ,res : Response) => {
 
 // };
 
-// // [GET]/api/v1/users/detail
-// module.exports.detail = async (req, res) => {
-//         res.json({
-//             code: 200,
-//             message : "Thành công" ,
-//             info :  req.user
-//         });
-    
-// };
 
 // // [GET]/api/v1/users/list
-// module.exports.list = async (req, res) => {
+// export const list = async (req : Request ,res : Response) => {
 //     const users = await User.find({deleted:false}).select("id fullName email")
 
 //     res.json({

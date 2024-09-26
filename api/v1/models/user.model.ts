@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import * as generate from "../helpers/generate"
 
 const userSchema = new mongoose.Schema({
     fullName: String,

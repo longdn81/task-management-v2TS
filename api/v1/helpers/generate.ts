@@ -1,7 +1,7 @@
-export const generateRandomString = (length : number) => {
-    const characters =
+export const generateRandomString = (length : number) :string => {
+    const characters:string =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz@123456789";
-    let result = "";
+    let result:string = "";
 
     for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
@@ -9,9 +9,9 @@ export const generateRandomString = (length : number) => {
     return result;
 };
 
-export const generateRandomNumber = (length : number) => {
-    const characters = "0123456789";
-    let result = "";
+export const generateRandomNumber = (length : number) :string=> {
+    const characters:string = "0123456789";
+    let result:string = "";
 
     for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
